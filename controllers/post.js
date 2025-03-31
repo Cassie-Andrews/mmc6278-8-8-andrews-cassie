@@ -4,9 +4,18 @@ async function create(req, res, next) {
   const {title, body, tags} = req.body
   // TODO: create a new post
   // if there is no title or body, return a 400 status
+  if (!title || !body) {
+    return res.status(400).json({error: 'Title and body are required.'})
+  }
   // omitting tags is OK
   // create a new post using title, body, and tags
+  const newPost = {
+    title,
+    body,
+    tags
+  }
   // return the new post as json and a 200 status
+  return res.status(200).json(newPost)
 }
 
 // should render HTML
