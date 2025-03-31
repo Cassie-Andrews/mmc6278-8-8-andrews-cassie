@@ -5,12 +5,13 @@ const PostSchema = new Schema({
 // Create an "title" property with type String that is required and unique
 title: {
   type: String,
-  require: true
+  required: true,
+  unique: true
 },
 // Create an "body" property with type String that is required
 body: {
   type: String,
-  require: true
+  required: true
 },
 // Create a "createdAt" property with type Date and set default to Date.now
 createdAt: {
@@ -18,15 +19,15 @@ createdAt: {
   default: Date.now
 },
 // Create a "comments" property that is an array of CommentSchema (a subdocument)
-comments: [
+comments: [{
   CommentSchema
-],
+}],
 // Create a "tags" property that is an array of objects
 // with type SchemaTypes.ObjectId and ref 'Tag'
-tags: {
+tags: [{
   type: SchemaTypes.ObjectId,
   ref: 'Tag'
-},
+}],
 // Create a "slug" property with type String
 slug: {
   type: String,
