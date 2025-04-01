@@ -12,7 +12,7 @@ async function create(req, res, next) {
   const newPost = {
     title,
     body,
-    tags
+    tags: tags || []
   }
   // return the new post as json and a 200 status
   return res.status(200).json(newPost)
@@ -95,7 +95,7 @@ async function update(req, res) {
     const updateContent = {
       title,
       body,
-      tags
+      tags: tags || []
     }
 
     const updatedPost = await Post.findByIdAndUpdate(
