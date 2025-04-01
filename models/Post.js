@@ -16,7 +16,7 @@ body: {
 // Create a "createdAt" property with type Date and set default to Date.now
 createdAt: {
   type: Date,
-  default: Date.now
+  default: Date.now({year: 'numeric', month: '2-digit', day: '2-digit'})
 },
 // Create a "comments" property that is an array of CommentSchema (a subdocument)
 comments: [{
