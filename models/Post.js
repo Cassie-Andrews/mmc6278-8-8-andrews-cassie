@@ -16,12 +16,12 @@ body: {
 // Create a "createdAt" property with type Date and set default to Date.now
 createdAt: {
   type: Date,
-  default: Date.now({year: 'numeric', month: '2-digit', day: '2-digit'})
+  default: Date.now()
 },
 // Create a "comments" property that is an array of CommentSchema (a subdocument)
-comments: [{
+comments: [
   CommentSchema
-}],
+],
 // Create a "tags" property that is an array of objects
 // with type SchemaTypes.ObjectId and ref 'Tag'
 tags: [{

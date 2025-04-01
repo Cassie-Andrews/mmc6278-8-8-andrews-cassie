@@ -40,9 +40,12 @@ async function get(req, res) {
     })
 
     post.comments = post.comments.map(comment => {
-      const commentDate = new Date(comment.createdAt)
-
-      comment.commentDate = comment.commentDate || 'oops'
+      comment.createdAt = new Date(comment.createdAt).toLocaleString('en-US', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
+      
       comment.author = comment.author || 'Anonymous'
       return comment
     })
