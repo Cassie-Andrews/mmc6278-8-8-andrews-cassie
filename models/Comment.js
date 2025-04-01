@@ -14,7 +14,7 @@ body: {
 // Create a "createdAt" property with type Date and set default to Date.now
 createdAt: {
     type: Date,
-    default: Date.now({year: 'numeric', month: '2-digit', day: '2-digit'})
+    default: Date.now()
 }
 })
 

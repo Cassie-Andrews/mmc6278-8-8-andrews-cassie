@@ -34,17 +34,15 @@ async function get(req, res) {
     }
 
     post.createdAt = new Date(post.createdAt).toLocaleString('en-US', {
-      month: '2-digit',
       day: '2-digit',
+      month: '2-digit',
       year: 'numeric',
     })
 
     post.comments = post.comments.map(comment => {
-      comment.createdAt = new Date(comment.createdAt).toLocaleString('en-US', {
-        month: '2-digit',
-        day: '2-digit',
-        year: 'numeric',
-      })
+      const commentDate = new Date(comment.createdAt)
+
+      comment.commentDate = comment.commentDate || 'oops'
       comment.author = comment.author || 'Anonymous'
       return comment
     })

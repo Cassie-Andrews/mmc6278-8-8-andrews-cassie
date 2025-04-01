@@ -11,7 +11,14 @@ async function create(req, res) {
       // this adds the comment to the comments array
       // the author key is omitted from the object if
       // no author is included
-      {$push: {comments: {...(author && {author}), body} }},
+      {$push: {
+        comments: {
+          ...(author && {author}), 
+          body,
+          createdAt: new Date()
+          } 
+        }
+      },
       {new: true, runValidators: true}
     )
     res.redirect(`/post/${post.slug}#comments`)
