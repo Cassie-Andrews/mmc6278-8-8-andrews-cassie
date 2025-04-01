@@ -9,13 +9,19 @@ async function create(req, res, next) {
   }
   // omitting tags is OK
   // create a new post using title, body, and tags
-  const newPost = {
+  const newPost = new Post({
     title,
     body,
     tags: tags || []
+  })
+
+  try {
+    const savedPost = await newPost.save()
+    // return the new post as json and a 200 status
+    return res.status(200).json(newPost)
+  } catch (err) {
+    return res.status(500).json(err.message)
   }
-  // return the new post as json and a 200 status
-  return res.status(200).json(newPost)
 }
 
 // should render HTML
@@ -45,7 +51,7 @@ async function get(req, res) {
         month: '2-digit',
         year: 'numeric',
       })
-      
+
       comment.author = comment.author || 'Anonymous'
       return comment
     })
@@ -109,9 +115,13 @@ async function update(req, res) {
     }
 
     const updatedPost = await Post.findByIdAndUpdate(
-      PostId,
+      postId,
       updateContent,
     )
+
+    if (!updatedPost) {
+      return res.status(404).json({error: 'Post not found'})
+    }
     // return the updated post as json
     return res.status(200).json(updatedPost)
   } catch(err) {
