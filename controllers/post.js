@@ -24,19 +24,28 @@ async function get(req, res) {
     const slug = req.params.slug
     // TODO: Find a single post
     // find a single post by slug and populate 'tags'
-    const post = await Post.findOne({slug}).populate('tags').populate('comments').lean()
+    const post = await Post.findOne({slug})
+      .populate('tags')
+      .populate('comments')
+      .lean()
     // you will need to use .lean() or .toObject()
+    if (!post) {
+      return res.status(404).send('Post not found')
+    }
+
     post.createdAt = new Date(post.createdAt).toLocaleString('en-US', {
       month: '2-digit',
       day: '2-digit',
       year: 'numeric',
     })
-    post.comments.map(comment => {
+
+    post.comments = post.comments.map(comment => {
       comment.createdAt = new Date(comment.createdAt).toLocaleString('en-US', {
         month: '2-digit',
         day: '2-digit',
         year: 'numeric',
       })
+      comment.author = comment.author || 'Anonymous'
       return comment
     })
     res.render('view-post', {post, isLoggedIn: req.session.isLoggedIn})
