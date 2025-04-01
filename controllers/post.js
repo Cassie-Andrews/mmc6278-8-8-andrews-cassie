@@ -110,9 +110,15 @@ async function update(req, res) {
 }
 
 async function remove(req, res, next) {
-  const postId = req.params.id
-  // TODO: Delete a post
-  // delete post by id, return a 200 status
+  try {
+    const post = await Post.findByIdAndDelete(req.params.id)
+    // TODO: Delete a post
+    // delete post by id, return a 200 status
+    if (!post) return res.status(404).send('post not found')
+    res.json('Post deleted')
+  } catch (err) {
+    res.status(500).send('error deleting post: ' + err.message)
+  }
 }
 
 module.exports = {
