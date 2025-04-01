@@ -24,6 +24,7 @@ async function get(req, res) {
     const slug = req.params.slug
     // TODO: Find a single post
     // find a single post by slug and populate 'tags'
+    const post = await Post.findOne({slug}).populate('tags').lean()
     // you will need to use .lean() or .toObject()
     post.createdAt = new Date(post.createdAt).toLocaleString('en-US', {
       month: '2-digit',
@@ -86,9 +87,23 @@ async function update(req, res) {
     const postId = req.params.id
     // TODO: update a post
     // if there is no title or body, return a 400 status
+    if (!title || !body) {
+      return res.status(400).json({error: 'Title and body are required.'})
+    }
     // omitting tags is OK
     // find and update the post with the title, body, and tags
+    const updateContent = {
+      title,
+      body,
+      tags
+    }
+
+    const updatedPost = await Post.findByIdAndUpdate(
+      PostId,
+      updateContent,
+    )
     // return the updated post as json
+    return res.status(200).json(updatedPost)
   } catch(err) {
     res.status(500).send(err.message)
   }
